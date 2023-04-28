@@ -2,6 +2,7 @@
 
 This is the first working version of an ASP implementation of Defeasible Deontic Logic. The implementation covers Obligations, Permisions, and Compensatory Obligations.  Currently, the language is restricted to defeasible rules (constitutive, prescriptive and permissive). 
 
+<!--
 %% conversions not used in overruled and  defeated TODO
 
 % obligationApplicable(R,X) :- constitutiveRule(R,X,C,O,P),
@@ -49,3 +50,4 @@ This is the first working version of an ASP implementation of Defeasible Deontic
 %
 % superior(r,s). % if restrict despite 
 % inferior(r,s). % if restrict subject_to
+-->
