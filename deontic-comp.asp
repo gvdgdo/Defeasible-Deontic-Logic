@@ -1,3 +1,5 @@
+% copyright (c) 2022-2023 Guido Governatori
+
 #include "language.asp".
 
 permission(X) :- obligation(X).
@@ -7,7 +9,7 @@ obligation(X) :- obligation(R,X,N).
 
 violation(R,X,N):- obligation(R,X,N), opposes(Y,X), defeasible(Y).
 
-terminalVioaltion(X) :- obligation(R,X,N), violation(R,X,N), not compensate(R,X,_,N).
+terminalViolation(R) :- obligation(R,X,N), violation(R,X,N), not compensate(R,X,_,N).
 
 % safeness or grounding
 
@@ -18,28 +20,28 @@ rule(R,X) :- compensate(R,_,X,_).
 
 % applicable
 
-obligationApplicable(R,X,N) :- prescriptiveRule(R,X), applicable(R), N=1.
-obligationApplicable(R,X,N) :- constitutiveRule(R,X), convertObligation(R), N=1.
+obligationApplicable(R,X,N) :- prescriptiveRule(R,X), applicable(R,X), N=1.
+obligationApplicable(R,X,N) :- constitutiveRule(R,X), convertObligation(R,X), N=1.
 obligationApplicable(R,X,N) :- compensate(R,Y,X,N-1), violation(R,Y,N-1).
 
-permissionApplicable(R,X) :- permissiveRule(R,X), applicable(R).
-permissionApplicable(R,X) :- constitutiveRule(R,X), convertPermission(R).
+permissionApplicable(R,X) :- permissiveRule(R,X), applicable(R,X).
+permissionApplicable(R,X) :- constitutiveRule(R,X), convertPermission(R,X).
 
 % attacking
 
-obligationAttackingRule(R,X) :- prescriptiveRule(R,X), applicable(R).  
-obligationAttackingRule(R,X) :- permissiveRule(R,X), applicable(R).
-obligationAttackingRule(R,X) :- constitutiveRule(R,X), convertObligation(R).
-obligationAttackingRule(R,X) :- constitutiveRule(R,X), convertPermission(R).
+obligationAttackingRule(R,X) :- prescriptiveRule(R,X), applicable(R,X).  
+obligationAttackingRule(R,X) :- permissiveRule(R,X), applicable(R,X).
+obligationAttackingRule(R,X) :- constitutiveRule(R,X), convertObligation(R,X).
+obligationAttackingRule(R,X) :- constitutiveRule(R,X), convertPermission(R,X).
 obligationAttackingRule(R,X) :- compensate(R,Y,X,N), violation(R,Y,N).
 
-permissionAttackingRule(R,X) :- prescriptiveRule(R,X), applicable(R).  
-permissionAttackingRule(R,X) :- constitutiveRule(R,X), convertObligation(R).
+permissionAttackingRule(R,X) :- prescriptiveRule(R,X), applicable(R,X).  
+permissionAttackingRule(R,X) :- constitutiveRule(R,X), convertObligation(R,X).
 permissionAttackingRule(R,X) :- compensate(R,Y,X,N), violation(R,Y,N).
 
 % rebutting
-rebuttingRule(R,X) :- prescriptiveRule(R,X), applicable(R).
-rebuttingRule(R,X) :- constitutiveRule(R,X), convertObligation(R).
+rebuttingRule(R,X) :- prescriptiveRule(R,X), applicable(R,X).
+rebuttingRule(R,X) :- constitutiveRule(R,X), convertObligation(R,X).
 rebuttingRule(R,X) :- compensate(R,Y,X,N), violation(R,Y,N).
 
 % obligation
