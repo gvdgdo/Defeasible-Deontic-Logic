@@ -1,0 +1,55 @@
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Article 1(a-c): the evaluation ev is prohibited unless the grant action eg really exist; if so, the evaluation ev is permitted.
+# The propositional symbol Evaluate_ev refers to the whole proposition "ev is an evaluation done by a licensee x on a product p". Same for other propositional symbols.
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Art1a[O]: => -Evaluate_ev
+Art1b[P]: Grant_eg, Rexist_eg => Evaluate_ev
+Art1b > Art1a
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Article 2(a-e): if the evaluation ev really exists, the publication epr is prohibited unless the approval ea really exists (or unless the publication is obligatory
+# because it has been commissioned, see below). If epr is prohibited and it also really exists, then the removal er is obligatory and it compensates epr (i.e., the 
+# proposition compensate_er_epr is entailed). 
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Art2a[O]: Evaluate_ev, Rexist_ev => -Publish_epr
+Art2b[P]: Approve_ea, Rexist_ea => Publish_epr
+Art2b > Art2a
+Art2c[O]: [O]-Publish_epr, Rexist_epr => Remove_er
+Art2e: [O]-Publish_epr, Rexist_epr => compensate_er_epr
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Article 3(a-c): if the evaluation ev really exists, the publication epc is prohibited unless the publication epr is permitted.
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Art3a[O]: Evaluate_ev, Rexist_ev => -Publish_epc
+Art3b[P]: [P]Publish_epr => Publish_epc
+Art3b > Art3a
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Article 4(a-b): if the commissioning ec really exists as well as the evaluation ev, then the publication epr is obligatory
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Art4a[O]: Commission_ec, Rexist_ec, Evaluate_ev, Rexist_ev => Publish_epr
+Art4a > Art2a
+
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Compliance checking rules
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ccRuleEv: [O]-Evaluate_ev, Rexist_ev => violated_ev
+
+ccRuleEpr1: [O]-Publish_epr, Rexist_epr, -compensated_er_epr => violated_epr
+
+ccRuleComp1: compensate_er_epr => -compensated_er_epr
+ccRuleComp2: compensate_er_epr, Rexist_er => compensated_er_epr
+ccRuleComp2 > ccRuleComp1
+
+ccRuleEr1: [O]Remove_er => violated_er
+ccRuleEr2: [O]Remove_er, Rexist_er => -violated_er
+ccRuleEr2 > ccRuleEr1
+
+ccRuleEpr2: [O]Publish_epr => violated_epr
+ccRuleEpr3: [O]Publish_epr, Rexist_epr => -violated_epr
+ccRuleEpr3 > ccRuleEpr2
+
+ccRuleEpc: [O]-Publish_epc, Rexist_epc => violated_epc

@@ -71,7 +71,7 @@ permissionOverruled(R,X) :-
     permissionAttackingRule(R1,X1),
     not permissionDefeated(R1,X1,X).
 
-permissionDefeated(R,X) :- 
+permissionDefeated(R,X,X1) :- 
     opposes(X1,X), rule(R,X1),
     rebuttingRule(S,X),
     superior(S,R).
