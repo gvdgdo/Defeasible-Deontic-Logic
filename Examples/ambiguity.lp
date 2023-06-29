@@ -29,12 +29,6 @@ supported(r2) :- support(s).
 supported(r3) :- support(p).
 supported(r4).
 
-pippo(r1) :- atom(p;q).
-pluto(r1) :- atom(p), atom(q).
-
 {fact(r;s)}.
 
-
-#show pippo/1.
-#show pluto/1.
-% #show defeasible/1.
+#show defeasible/1.
