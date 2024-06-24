@@ -10,9 +10,9 @@ is represented by the clauses
 
     <type>Rule(label, head).
     applicable(label, head) :-
-        defeasible(a_1; ... ; a_n),
-        obligation(o_1; ... ; o_m),
-        permission(p_1; ... ; p_k).
+        defeasible(a_1), ...  defeasible(a_n),
+        obligation(o_1), ...  obligation(o_m),
+        permission(p_1), ...  permission(p_k).
 
 where `<type>`  is a placeholder for `constitutive`, `prescriptive` or `permissive` according to the value of `X`. 
 
@@ -27,9 +27,9 @@ The `head` is represented by a set of clauses
 For `constitutiveRule`, it is possible to add
 
     convertObligation(label, head) :-
-        obligatoin(a_1; ... ; a_n).
+        obligatoin(a_1), ... obligation(a_n).
     convertPermission(label, head) :-
-        permission(a_1; ... ; a_n).
+        permission(a_1), ... permission(a_n).
 
 provided `{a_1, ..., a_n}` is not empty and there are no obligations or permissions in the antecedent of the rule. 
 
