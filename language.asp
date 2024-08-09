@@ -1,4 +1,4 @@
-% Copyright (c) 2022-2023 Guido Governatori.
+% Copyright (c) 2022-2024 Guido Governatori.
 
 % atomic proposition have to be declared with "atom"
 
