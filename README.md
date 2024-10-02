@@ -6,7 +6,7 @@ The code provides an implementation of Defeasible Logic and Defeasible Deontic L
 
 The implementation support the full version of Defeasible Logic, including strict rules, defeasible rules and defeaters, and implements both the ambiguity blocking and ambiguity propagating variants of the logic. 
 
-It supports the computation of positive (and negative) definite and defeasible extensions of a defeasible theory. A defeasible theory is a triple `<Facts, Rules, Superiority>` where `Facts` is a set of atomic propositions regarded as true, `Rules` is a set of rules, divided in _strict rules_, _defeasible rules_ and_defeaters_, and the `Superiority` relation is a binary relation over the set of rules, describing the relative strength of pairs of rules. 
+It supports the computation of positive (and negative) definite and defeasible extensions of a defeasible theory. A defeasible theory is a triple `<Facts, Rules, Superiority>` where `Facts` is a set of atomic propositions regarded as true, `Rules` is a set of rules, divided in _strict rules_, _defeasible rules_ and _defeaters_, and the `Superiority` relation is a binary relation over the set of rules, describing the relative strength of pairs of rules. 
 
 The computation of the extension is limited to the (ground) propositions declared as atomic_proposition
 
