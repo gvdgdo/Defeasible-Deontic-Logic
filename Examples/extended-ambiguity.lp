@@ -1,24 +1,25 @@
+% copyright (c) 2022-2025 Guido Governatori
 
-#include "defeasible-ab.asp".
-% #include "defeasible-ap.asp".
+#include "../Basic/defeasible-ab.asp".
+%% to compute the extension using ambiguity blocking
+
+% #include "../Basic/defeasible-ap.asp".
+%% to compute the extension using ambiguity propagation
+
 
 atom(e1;e2;r;g;c).
 
-rule(r1, r, (e1)).
-rule(r2, non(r), (e2)).
-rule(r3, g, (r)).
-rule(r4, non(g), ()).
-rule(r5, c, (non(g))).
-rule(r6, non(c), ()).
+rule(r1, r).
+rule(r2, non(r)).
+rule(r3, g).
+rule(r4, non(g)).
+rule(r5, c).
+rule(r6, non(c)).
 
 superior(r3,r4).
 superior(r5,r6).
 
 {fact(e1;e2)}.
-
-%%%%%%%%%%
-
-rule(R,X) :- rule(R,X,_).
 
 applicable(r1) :- defeasible(e1).
 supported(r1) :- support(e1).

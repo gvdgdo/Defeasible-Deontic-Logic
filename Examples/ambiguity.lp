@@ -1,7 +1,19 @@
-% #include "defeasible-ab.asp".
-#include "defeasible-ap.asp".
+% copyright (c) 2022-2025 Guido Governatori
+
+#include "../Basic/defeasible-ab.asp".
+%% to compute the extension using ambiguity blocking
+
+% #include "../Basic/defeasible-ap.asp".
+%% to compute the extension using ambiguity propagation
+
 
 %%%% basic ambiguity 
+%% r1: r =>p
+%% r2: s => ~p
+%% r3: p => q
+%% r4: => ~q
+%%
+%% r3 > r4
 
 atom(p;q;s;r).
 
@@ -31,4 +43,5 @@ supported(r4).
 
 {fact(r;s)}.
 
-#show defeasible/1.
+% #show defeasible/1.
+#show X: defeasible(X).

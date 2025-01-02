@@ -1,4 +1,4 @@
-% copyright (c) 2022-2024 Guido Governatori
+% copyright (c) 2022-2025 Guido Governatori
 
 #include "definite.asp".
 
@@ -6,12 +6,12 @@
 defeasible(X) :-  definite(X).
 
 % X holds defeasibly, it there is not fact X1 opposing X, and
-% there is an applicable rule R for X that is not overuled for X.
+% there is an applicable rule R for X that is not overruled for X.
 defeasible(X) :-  opposes(X,X1), not definite(X1), 
     rule(R,X), not defeater(R,X), applicable(R,X),
     not overruled(R,X).
 
-% a rule R for X is overruiled if there is an applicable  and 
+% a rule R for X is overruled if there is an applicable  and 
 % undefeated rule R1 for a literal X1 that opposes X
 overruled(R,X) :- opposes(X,X1), rule(R,X), 
     rule(R1, X1), applicable(R1,X1),

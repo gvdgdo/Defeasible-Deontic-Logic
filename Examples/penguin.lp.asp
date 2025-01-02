@@ -3,6 +3,7 @@
 variable(pepe;tweety;clay;dove;pappa;gallo;meg;pie).
 atom(penguin(X);bird(X);superpenguin(X);flies(X)) :- variable(X).
 
+
 rule(r1,flies(X)) :- variable(X).
 applicable(r1,flies(X)) :- defeasible(bird(X)).
 

@@ -1,4 +1,4 @@
-% Copyright (c) 2022-2024 Guido Governatori.
+% Copyright (c) 2022-2025 Guido Governatori.
 
 % atomic proposition have to be declared with "atom"
 
@@ -10,7 +10,7 @@ negation(X,non(X)) :- atom(X).
 
 %% "conflict/2" establishes that the literal X cannot be 
 %% true when literal Y is true.
-%% "strongConflcit/2" is the symetric version of "conflict"
+%% "strongConflict/2" is the symmetric version of "conflict"
 conflict(X,Y) :- strongConflict(X,Y).
 conflict(Y,X) :- strongConflict(X,Y).
 

@@ -1,4 +1,4 @@
-% copyright (c) 2022-2024 Guido Governatori
+% copyright (c) 2022-2025 Guido Governatori
 
 #include "../language.asp".
 
