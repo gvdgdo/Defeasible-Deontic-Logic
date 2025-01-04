@@ -12,9 +12,9 @@ beaten(R,X) :- rule(R,X), opposes(X,X1), fact(X1).
 beaten(R,X) :- rule(R,X), opposes(X,X1), 
     rule(R1,X1), supported(R1,X1), superior(R1,R).
 
-defeasible(X) :-  definite(X).
+defeasible(X) :- definite(X).
 
-defeasible(X) :-  opposes(X,X1), not definite(X1), 
+defeasible(X) :- opposes(X,X1), not definite(X1), 
     rule(R,X), not defeater(R,X), applicable(R,X),
     not overruled(R,X).
 

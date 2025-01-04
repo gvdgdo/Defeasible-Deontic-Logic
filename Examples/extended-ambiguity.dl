@@ -1,0 +1,13 @@
+# copyright (c) 2022-2025 Guido Governatori
+
+r1: evidence1 => responsible
+r2: evidence2 => ~responsible
+r3: responsible => guilty
+r4: => ~guilty
+r5: ~guilty => compensation
+r6: => ~compensation
+
+r4 > r3
+r5 > r6
+
+evidence1;evidence2

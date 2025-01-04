@@ -31,15 +31,15 @@ superior(r3,r4).
 
 %%%% rules instantiation
 
-applicable(r1) :- defeasible(r). 
-applicable(r2) :- defeasible(s).
-applicable(r3) :- defeasible(p).
-applicable(r4).
+applicable(r1,p) :- defeasible(r). 
+applicable(r2,non(p)) :- defeasible(s).
+applicable(r3,q) :- defeasible(p).
+applicable(r4,non(q)).
 
-supported(r1) :- support(r). 
-supported(r2) :- support(s).
-supported(r3) :- support(p).
-supported(r4).
+supported(r1,p) :- support(r). 
+supported(r2,non(p)) :- support(s).
+supported(r3,q) :- support(p).
+supported(r4,non(q)).
 
 {fact(r;s)}.
 

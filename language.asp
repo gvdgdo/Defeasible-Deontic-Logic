@@ -8,6 +8,11 @@ negation(non(X),X) :- atom(X).
 %the negation of X is non(X), provided X is an atom.
 negation(X,non(X)) :- atom(X).
 
+%% a literal is an atom or its negation
+isNegation(X) :- atom(Y), negation(X,Y).
+literal(X) :- isNegation(X).
+literal(X) :- atom(X).
+
 %% "conflict/2" establishes that the literal X cannot be 
 %% true when literal Y is true.
 %% "strongConflict/2" is the symmetric version of "conflict"

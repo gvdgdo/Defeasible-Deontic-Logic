@@ -1,0 +1,10 @@
+# copyright (c) 2022-2025 Guido Governatori
+
+r1: a1 =>p
+r2: a2 => ~p
+r3: a3 => p
+
+r3 > r2
+r2 > r1
+
+a1;a2;a3
