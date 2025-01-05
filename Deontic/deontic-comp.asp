@@ -7,7 +7,7 @@ permission(X) :- opposes(X,X1), not obligation(X1).
 
 obligation(X) :- obligation(R,X,N).
 
-violation(R,X,N):- obligation(R,X,N), opposes(Y,X), defeasible(Y).
+violation(R,X,N) :- obligation(R,X,N), opposes(Y,X), defeasible(Y).
 
 terminalViolation(R) :- obligation(R,X,N), violation(R,X,N), not compensate(R,X,_,N).
 
