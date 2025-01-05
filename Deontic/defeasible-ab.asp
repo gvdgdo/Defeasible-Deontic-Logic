@@ -1,6 +1,6 @@
 % copyright (c) 2022-2025 Guido Governatori
 
-#include "../language.asp".
+#include "language.asp".
 
 % every fact X holds defeasibly
 defeasible(X) :-  fact(X).

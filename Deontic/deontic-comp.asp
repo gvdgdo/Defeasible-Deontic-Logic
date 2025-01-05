@@ -1,6 +1,6 @@
 % copyright (c) 2022-2025 Guido Governatori
 
-#include "../language.asp".
+#include "language.asp".
 
 permission(X) :- obligation(X).
 permission(X) :- opposes(X,X1), not obligation(X1).

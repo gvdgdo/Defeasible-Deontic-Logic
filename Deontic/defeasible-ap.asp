@@ -1,6 +1,6 @@
 % Copyright (c) 2022-2025 Guido Governatori.
 
-#include "../language.asp".
+#include "language.asp".
 
 support(X) :- fact(X).
 
