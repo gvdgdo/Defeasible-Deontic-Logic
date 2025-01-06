@@ -142,12 +142,15 @@ class DLParser:
         return '\n'.join(self.rules + self.superiorities + self.facts + list(self.atoms))
 
 class DDLParser(DLParser):
+    def __init__(self):
+        DLParser.__init__(self)
+        self.compensations = []
 
     def parse(self, text):
         lines = text.split('\n')
         for line in lines:
             line = line.strip()
-            if not line or line.startswith('#'):
+            if not line or line.startswith('#') or '->' in line:
                 continue
             if '=>' in line:
                 self.parse_rule(line)
@@ -165,9 +168,16 @@ class DDLParser(DLParser):
         antecedent = antecedent.strip()
         consequent = consequent.strip()
         antecedent_literals = [self.transform_literal(lit.strip()) for lit in antecedent.split(',') if lit.strip()]
-        consequent_literal = self.transform_literal(consequent)
+        consequent_literals = [lit.strip() for lit in consequent.split(',') if lit.strip()]
+        consequent_literal = self.transform_literal(consequent_literals[0])
+# extend the DDL parser to include a function that when the consequent of a prescriptive rule contains more than one element strips the deontic modality and output a string "compensate(name,element1,element2,1)" where element1 and element2 are consecutive elements in the consequent. Do this for all the pair of consecutive elements in the consequent of the rule
         if consequent_literal.startswith('obl('):
             rule_type = 'prescriptiveRule'
+            if len(consequent_literals) > 1:
+                for i in range(len(consequent_literals) - 1):
+                    elem1 = self.transform_literal(consequent_literals[i][3:])
+                    elem2 = self.transform_literal(consequent_literals[i + 1][3:])
+                    self.compensations.append(f'compensate({name},{elem1},{elem2},{i+1}).')
         elif consequent_literal.startswith('per('):
             rule_type = 'permissiveRule'
         else:
@@ -196,24 +206,28 @@ class DDLParser(DLParser):
             return f'non({self.transform_literal(literal[1:])})'
         else:
             self.atoms.add(f'atom({literal}).')
-            return literal
+            return literal 
 
-# # Example usage:
-# parser = DDLParser()
-# parser.parse("""
-# # Example rules
-# r: A , B => C
-# r1: [O]A, C => [O]B
-# rule3: [P]A, ~D, ~[O]E => [P]~B
-# rule_name: ~[O]~G => C
-# s : => T
-# s2: pippo -> pluto
+    def get_output(self):
+        return "\n".join(list(self.atoms) + self.rules + self.superiorities  + self.compensations + self.facts)
+
+# Example usage:
+parser = DDLParser()
+parser.parse("""
+# Example rules
+r: A , B => C
+r1: [O]A, C => [O]B
+rule3: [P]A, ~D, ~[O]E => [P]~B
+rule_name: ~[O]~G => C
+s : => T
+s2: pippo -> pluto
+comp2: x => [O]y, [O]z, [O]~w             
              
-# # Example superiority
-# r1 > r2
+# Example superiority
+r1 > r2
 
-# # Example facts
-# a;c
-# ~b
-# """)
-# print(parser.get_output())
+# Example facts
+a;c
+~b
+""")
+print(parser.get_output())
