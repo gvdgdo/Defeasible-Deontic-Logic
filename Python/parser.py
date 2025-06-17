@@ -24,13 +24,21 @@
 # a prescriptive rule if the deontic literal is an obligation, and 
 # permissive rule if it is a permission.
 # if the first literal in the consequent is not a deontic literal, then the     # rule is a constitutive rule.
+# when the consequent of a prescriptive rule contains more than one element 
+# strips the deontic modality and output a string 
+# "compensate(name,element1,element2,1)" where element1 and element2 are 
+# consecutive elements in the consequent. Do this for all the pair of 
+# consecutive elements in the consequent of the rule
 
 # the parser should be able to parse the following rules:
 
 # r: a , b => c
 # r1: [O]a, c => [O]b
 # rule3: [P]a, ~d, ~[O]e => [P]~b
-# rule_name: ~[O]~c => c
+# rule_name: ~[O]~g => c
+# s : => c
+# s2: pippo -> pluto
+# comp2: x => [O]y, [O]z, [O]~w             
 
 # and produce the following output:
 
@@ -86,7 +94,7 @@ class DLParser:
                 continue
             if '->' in line or '=>' in line or '~>' in line:
                 self.parse_rule(line)
-            elif '>' in line:
+            elif '>' in line or '<' in line:
                 self.parse_superiority(line)
             elif ';' in line:
                 self.parse_facts(line)
@@ -117,7 +125,10 @@ class DLParser:
                 self.rules.append(f'body({name},({";".join(antecedent_literals)})).')
 
     def parse_superiority(self, line):
-        r1, r2 = line.split('>')
+        if '>' in line:
+            r1, r2 = line.split('>')
+        else:
+            r2, r1 = line.split('<')
         r1 = r1.strip()
         r2 = r2.strip()
         self.superiorities.append(f'superior({r1},{r2}).')
@@ -170,7 +181,6 @@ class DDLParser(DLParser):
         antecedent_literals = [self.transform_literal(lit.strip()) for lit in antecedent.split(',') if lit.strip()]
         consequent_literals = [lit.strip() for lit in consequent.split(',') if lit.strip()]
         consequent_literal = self.transform_literal(consequent_literals[0])
-# extend the DDL parser to include a function that when the consequent of a prescriptive rule contains more than one element strips the deontic modality and output a string "compensate(name,element1,element2,1)" where element1 and element2 are consecutive elements in the consequent. Do this for all the pair of consecutive elements in the consequent of the rule
         if consequent_literal.startswith('obl('):
             rule_type = 'prescriptiveRule'
             if len(consequent_literals) > 1:
@@ -182,7 +192,10 @@ class DDLParser(DLParser):
             rule_type = 'permissiveRule'
         else:
             rule_type = 'constitutiveRule'
-        self.rules.append(f'{rule_type}({name},{consequent_literal}).')
+        if rule_type == 'constitutiveRule':
+            self.rules.append(f'constitutiveRule({name},{consequent_literal}).')
+        else:
+            self.rules.append(f'{rule_type}({name},{consequent_literal[4:-1]}).')
         if antecedent_literals:
             if len(antecedent_literals) == 1:
                 self.rules.append(f'body({name},{antecedent_literals[0]}).')
@@ -212,22 +225,22 @@ class DDLParser(DLParser):
         return "\n".join(list(self.atoms) + self.rules + self.superiorities  + self.compensations + self.facts)
 
 # Example usage:
-parser = DDLParser()
-parser.parse("""
-# Example rules
-r: A , B => C
-r1: [O]A, C => [O]B
-rule3: [P]A, ~D, ~[O]E => [P]~B
-rule_name: ~[O]~G => C
-s : => T
-s2: pippo -> pluto
-comp2: x => [O]y, [O]z, [O]~w             
+# parser = DDLParser()
+# parser.parse("""
+# # Example rules
+# r: A , B => C
+# r1: [O]A, C => [O]B
+# rule3: [P]A, ~D, ~[O]E => [P]~B
+# rule_name: ~[O]~G => C
+# s : => T
+# s2: pippo -> pluto
+# comp2: x => [O]y, [O]z, [O]~w             
              
-# Example superiority
-r1 > r2
+# # Example superiority
+# r1 > r2
 
-# Example facts
-a;c
-~b
-""")
-print(parser.get_output())
+# # Example facts
+# a;c
+# ~b
+# """)
+# print(parser.get_output())
