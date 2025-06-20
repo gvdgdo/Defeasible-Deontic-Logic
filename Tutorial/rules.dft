@@ -1,0 +1,5 @@
+r1: a;c => [O]b
+r2: [O]b => c
+r3: a => [O]d ; [O]e; [O]~f
+a
+r2(pippo,pluto): a(pippo,x); [O]b(pluto,y) => [P]paperino(pippo,pluto)
