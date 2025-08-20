@@ -202,7 +202,7 @@ class DDLParser(DLParser):
             if len(antecedent_literals) == 1:
                 self.rules.append(f'body({name},{antecedent_literals[0]}).')
             else:
-                self.rules.append(f'body({name},({",".join(antecedent_literals)})).')
+                self.rules.append(f'body({name},({";".join(antecedent_literals)})).')
 
     def transform_literal(self, literal):
         if literal.startswith('~[O]'):
