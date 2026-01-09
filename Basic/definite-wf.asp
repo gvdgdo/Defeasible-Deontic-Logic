@@ -1,7 +1,6 @@
 % Copyright (c) 2022-2026 Guido Governatori.
 
-file("definite.asp").
-version("definite", "2026-01-09").
+version("definite well-founded", "2026-01-09").
 
 #include "language.asp".
 
@@ -17,10 +16,8 @@ definite(X) :- strictRule(R,X), definiteApplicable(R,X).
 definiteApplicable(R,X) :- 
     strictRule(R,X), definite(Y) : body(R,Y).
 
-% a conclusion X is definitely refuted if it is not a fact, and all rules for 
-% it are definitely discarded
-definiteRefuted(X) :- literal(X), not fact(X), 
-    definiteDiscarded(R,X) : strictRule(R,X).
+% a literal X is definitely refuted if it is not definitely provable
+definiteRefuted(X) :- literal(X), not definite(X).
 
 % a strict rule R is definitely discarded if at least one element of the
 % body is definitely refuted

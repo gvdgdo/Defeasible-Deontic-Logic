@@ -2,10 +2,10 @@
 
 #include "definite.asp".
 
-version("defeasible ambiguity blocking", "2026-01-09").
+version("defeasible ambiguity blocking well-founded", "2026-01-09").
 
 % if a conclusion X holds definitely, it also holds defeasibly
-defeasible(X) :- definite(X).
+defeasible(X) :-  definite(X).
 
 % X holds defeasibly, it there is not fact X1 opposing X, and
 % there is an applicable and all rules for opposite literals 
@@ -19,7 +19,7 @@ defeasible(X) :-
 defeated(R,X) :- opposes(X,X2), rule(R,X),
     rule(R2,X2), superior(R2,R),
     applicable(R2,X2).
-    
+
 % a rule R is rebutted if it is defeated or discarded
 rebutted(R,X) :- rule(R,X), defeated(R,X).
 rebutted(R,X) :- rule(R,X), discarded(R,X).
@@ -27,14 +27,5 @@ rebutted(R,X) :- rule(R,X), discarded(R,X).
 % a rules is applicable if it is definitely applicable
 applicable(R,X) :- definiteApplicable(R,X).
 
-% a conclusion X is defeasibly refuted if the opposite X1 holds definitely
-refuted(X) :- opposes(X,X1), definite(X1).
-
-% or if every rule for X (that is not a defeater) is either discarded 
-% or attacked by an undefeated rule
-refuted(X) :- literal(X), not definite(X),
-    mpartial(R,X) : rule(R,X).
-
-mpartial(R,X) :- rule(R,X), discarded(R,X) : rule(R,X), not defeater(R,X).
-mpartial(R,X) :- rule(R,X), rule(S,Y), opposes(X,Y), applicable(S,Y),
-     discarded(T,X) : rule(T,X), superior(T,S).
+% a conclusion is defeasibly refuted if it is not defeasible provable
+refuted(X) :- literal(X), not defeasible(X).
