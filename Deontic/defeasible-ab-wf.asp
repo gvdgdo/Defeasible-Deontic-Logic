@@ -1,11 +1,11 @@
 % copyright (c) 2022-2026 Guido Governatori
 
-version("Deontic defeasible ambiguity propagation", "2026-01-09").
+version("Deontic defeasible ambiguity propagation well founded", "2026-01-09").
 
 #include "language.asp".
 
 % every fact X holds defeasibly
-defeasible(X) :-  fact(X).
+defeasible(X) :- fact(X).
 
 % X holds defeasibly, it there is not fact X1 opposing X, and
 % there is an applicable constitutiveRule R for X that is not 
@@ -24,16 +24,5 @@ defeated(R,X) :- opposes(X,X2), constitutiveRule(R,X),
 rebutted(R,X) :- constitutiveRule(R,X), defeated(R,X).
 rebutted(R,X) :- constitutiveRule(R,X), discarded(R,X).
 
-% a conclusion X is defeasibly refuted if the opposite X1 holds definitely
-refuted(X) :- opposes(X,X1), definite(X1).
-
-% or if every rule for X (that is not a defeater) is either discarded 
-% or attacked by an undefeated rule
-refuted(X) :- literal(X), not definite(X),
-    mpartial(R,X) : constitutiveRule(R,X).
-
-mpartial(R,X) :- constitutiveRule(R,X), discarded(R,X) : constitutiveRule(R,X).
-mpartial(R,X) :- constitutiveRule(R,X),  
-    constitutiveRule(S,Y), opposes(X,Y), applicable(S,Y),
-    discarded(T,X) : constitutiveRule(T,X), superior(T,S).
-    
+% a conclusion X is defeasibly refuted if does not hold defeasibly
+refuted(X) :- literal(X), not defeasible(X).

@@ -2,8 +2,8 @@
 
 #include "language.asp".
 
-file("deontic.asp").
-version("deontic", "2026-01-13").
+file("deontic-wf.asp").
+version("deontic well-founded", "2026-01-13").
 
 % Deontic logic module without compensation
 
@@ -46,24 +46,14 @@ obligationDefeated(S,Y,X) :-
 
 % a obligation attacking rule S for Y against X is rebutted if 
 % 1) it is discarded; or 2) it is defeated.
-obligationRebutted(S,Y,X) :- obligationAttacking(S,Y,X),
-    discarded(S,Y) : obligationAttacking(S,Y,X). 
+obligationRebutted(S,Y,X) :- 
+    discarded(S,Y) : obligationAttacking(S,Y,X); obligationAttacking(S,Y,X).
 obligationRebutted(S,Y,X) :- obligationAttacking(S,Y,X),
     obligationDefeated(S,Y,X) : obligationAttacking(S,Y,X). 
 
-% an obligation X is refuted if all the prescriptive rules for X are either 
-% discarded or attacked by an undefeated rule.
-obligationRefuted(X) :- literal(X),
-    mOpartial(R,X) : prescriptiveRule(R,X).
+% the obligation of a literal X is rejected if the literal is not obligatory
+obligationRefuted(X) :- literal(X), not obligation(X).
 
-mOpartial(R,X) :- prescriptiveRule(R,X), discarded(R,X).
-% a prescriptive rule R for X is attacked by an undefeated rule S for Y
-% if S attacks R and S is applicable and not defeated by an applicable stronger 
-% rule T for X
-mOpartial(R,X) :- prescriptiveRule(R,X), applicable(R,X),
-    obligationAttacking(S,Y,X), applicable(S,Y),
-    discarded(T,X) : obligationRebutting(T,S,Y,X), superior(T,S). 
-  
 % the permission of a literal X holds if there is an applicable
 % permissive rule for X and all the attacking prescriptive rules
 % have been rebutted.
@@ -73,8 +63,8 @@ permission(X) :- permissiveRule(R,X), applicable(R,X),
 % a (prescriptive) rule S is rebutted for the permission of X if 1) the rule 
 % is discarded; or 2) it is defeated by a stronger applicable rule for X.
 permissionRebutted(S,Y,X) :- discarded(S,Y), opposes(X,Y).
-permissionRebutted(S,Y,X) :-  prescriptiveRule(S,Y), opposes(X,Y),
-    permissionDefeated(S,Y,X) : prescriptiveRule(S,Y), opposes(X,Y).
+permissionRebutted(S,Y,X) :- prescriptiveRule(S,Y), opposes(X,Y),
+    permissionDefeated(S,Y,X) : prescriptiveRule(S,Y).
 
 % a (prescriptive) rule S is defeated for X's permission if there is a
 % stronger deontic rule T for X that is applicable.
@@ -82,15 +72,5 @@ permissionDefeated(S,Y,X) :-
     prescriptiveRule(S,Y), opposes(X,Y),
     deonticRule(T,X), applicable(T,X), superior(T,S).
 
-% a permission X is refuted if all the permissive rules for X are either
-% discarded or attacked by an undefeated prescriptive rule.
-permissionRefuted(X) :- literal(X),
-    mPpartial(R,X) : permissiveRule(R,X).
-
-mPpartial(R,X) :- permissiveRule(R,X), discarded(R,X).
-% a permissive rule R for X is attacked by an undefeated prescriptive rule 
-% S for Y when S opposes X and S is applicable and not defeated by an applicable
-% stronger rule T for X
-mPpartial(R,X) :- permissiveRule(R,X), applicable(R,X),
-    prescriptiveRule(S,Y), opposes(X,Y), applicable(S,Y),
-    discarded(T,X) : deonticRule(T,X), superior(T,S). 
+% the permission of a literal X is rejected if the literal is not permitted
+permissionReject(X) :- literal(X), not permission(X).
