@@ -80,12 +80,11 @@
 import re
 
 class DLParser:
-    def __init__(self, sep=','):
+    def __init__(self):
         self.rules = []
         self.superiorities = []
         self.facts = []
         self.atoms = set()
-        self.sep = sep  # separator for atoms in input rules
 
     def parse(self, text):
         lines = text.split('\n')
@@ -116,7 +115,7 @@ class DLParser:
             rule_type = 'defeater'
         antecedent = antecedent.strip()
         consequent = consequent.strip()
-        antecedent_literals = [self.transform_literal(lit.strip()) for lit in antecedent.split(self.sep) if lit.strip()]
+        antecedent_literals = [self.transform_literal(lit.strip()) for lit in antecedent.split('&') if lit.strip()]
         consequent_literal = self.transform_literal(consequent)
         self.rules.append(f'{rule_type}({name},{consequent_literal}).')
         if antecedent_literals:
@@ -135,7 +134,7 @@ class DLParser:
         self.superiorities.append(f'superior({r1},{r2}).')
 
     def parse_facts(self, line):
-        facts = [self.transform_literal(lit.strip()) for lit in line.split(self.sep) if lit.strip()]
+        facts = [self.transform_literal(lit.strip()) for lit in line.split(';') if lit.strip()]
         fact_content = ';'.join(facts)
         self.facts.append(f'{{ fact({fact_content}) }}.')
 
@@ -154,10 +153,9 @@ class DLParser:
         return '\n'.join(self.rules + self.superiorities + self.facts + list(self.atoms))
 
 class DDLParser(DLParser):
-    def __init__(self, sep=','):
+    def __init__(self):
         DLParser.__init__(self)
         self.compensations = []
-        self.sep = sep
 
     def parse(self, text):
         lines = text.split('\n')
@@ -167,7 +165,7 @@ class DDLParser(DLParser):
                 continue
             if '=>' in line:
                 self.parse_rule(line)
-            elif '>' in line or '<' in line:
+            elif '>' in line:
                 self.parse_superiority(line)
             elif ';' in line:
                 self.parse_facts(line)
@@ -180,8 +178,8 @@ class DDLParser(DLParser):
         antecedent, consequent = rule.split('=>')
         antecedent = antecedent.strip()
         consequent = consequent.strip()
-        antecedent_literals = [self.transform_literal(lit.strip()) for lit in antecedent.split(self.sep) if lit.strip()]
-        consequent_literals = [lit.strip() for lit in consequent.split(self.sep) if lit.strip()]
+        antecedent_literals = [self.transform_literal(lit.strip()) for lit in antecedent.split('&') if lit.strip()]
+        consequent_literals = [lit.strip() for lit in consequent.split('&') if lit.strip()]
         consequent_literal = self.transform_literal(consequent_literals[0])
         if consequent_literal.startswith('obl('):
             rule_type = 'prescriptiveRule'
