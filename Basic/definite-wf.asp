@@ -1,6 +1,6 @@
 % Copyright (c) 2022-2026 Guido Governatori.
 
-version("definite well-founded", "2026-01-09").
+file("Basic/definite-wf.asp", "definite well-founded", "2026-01-09").
 
 #include "language.asp".
 

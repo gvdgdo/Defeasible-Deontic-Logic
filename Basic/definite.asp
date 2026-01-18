@@ -1,7 +1,6 @@
 % Copyright (c) 2022-2026 Guido Governatori.
 
-file("definite.asp").
-version("definite", "2026-01-09").
+file("Basic/definite.asp", "definite", "2026-01-09").
 
 #include "language.asp".
 

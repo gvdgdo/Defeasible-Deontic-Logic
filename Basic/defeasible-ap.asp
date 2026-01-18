@@ -3,7 +3,7 @@
 #include "definite.asp".
 
 % identifier
-version("defeasible ambiguity propagation", "2026-01-09").
+file("Basic/defeasible-ap.asp", "defeasible ambiguity propagation", "2026-01-09").
 
 % if a conclusion X holds definitely, it is also supported
 supported(X) :- definite(X).

@@ -1,7 +1,6 @@
 % Copyright (c) 2022-2026 Guido Governatori.
 
-file("Basic/language.asp").
-version("basic language", "2026-01-09").
+file("Basic/language.asp", "basic language", "2026-01-09").
 
 #include "../language.asp".
 

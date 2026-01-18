@@ -2,7 +2,7 @@
 
 #include "definite.asp".
 
-version("defeasible ambiguity blocking well-founded", "2026-01-09").
+file("Basic/defeasible-as-wf.asp", "defeasible ambiguity blocking well-founded", "2026-01-09").
 
 % if a conclusion X holds definitely, it also holds defeasibly
 defeasible(X) :-  definite(X).
