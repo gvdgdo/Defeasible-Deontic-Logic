@@ -2,7 +2,7 @@
 
 #include "language.asp".
 
-file("Deontic/deontic-comp.asp", "2026-01-17").
+file("Deontic/deontic-comp-wf.asp", "2026-01-17").
 
 obligation(X) :- obligation(R,X,N).
 
@@ -73,10 +73,10 @@ rebuttingRule(T,X,S,Y) :- permissiveRule(T,X), applicable(T,X),
 rebuttingRule(T,X,S,Y) :- constitutiveRule(T,X), convertPermission(T,X),
     permissionAttackingRule(S,Y,X).
 
-% +partial obligation
+% obligation
 
 obligation(R,X,N) :-  
-    obligationApplicable(R,X,N), opposes(X,Y),
+    obligationApplicable(R,X,N), literal(X),
     obligationRebutted(S,Y,X) : obligationAttackingRule(S,Y,X).
 
 obligationRebutted(S,Y,X) :- obligationAttackingRule(S,Y,X),
@@ -84,28 +84,16 @@ obligationRebutted(S,Y,X) :- obligationAttackingRule(S,Y,X),
 obligationRebutted(S,Y,X) :- obligationAttackingRule(S,Y,X),
     rebuttingRule(T,X,S,Y), superior(T,S).
 
-% - partial obligation
-
-obligationRefuted(X) :- literal(X),
-    mOpartial(R,X) : rule(R,X). 
-
-mOpartial(R,X) :- rule(R,X), obligationDiscarded(R,X,N).
-mOpartial(R,X) :- obligationApplicable(R,X,N),
-    obligationAttackingRule(S,Y,X), obligationApplicable(S,Y,N),
-    discarded(T,X) : rebuttingRule(T,X,S,Y), superior(T,S). 
-
-% + partial permission
+obligationRefuted(X) :- literal(X), not obligation(X).
 
 permission(X) :- 
     permissionApplicable(R,X), literal(X),
     permissionRebutted(S,Y,X) : permissionAttackingRule(S,Y,X).
 
-% - partial permission
+permissionRebutted(S,Y,X) :- permissionAttackingRule(S,Y,X),
+    permissionDiscarded(S,Y).
+permissionRebutted(S,Y,X) :- permissionAttackingRule(S,Y,X),
+    rebuttingRule(T,X,S,Y), superior(T,S).
 
-permissionRefuted(X) :- literal(X),
-    mPpartial(R,X) : rule(R,X).
+permissionRefuted(X) :- literal(X), not permission(X).
 
-mPpartial(R,X) :- rule(R,X), permissionDiscarded(R,X).
-mPpartial(R,X) :- permissionApplicable(R,X),
-    permissionAttackingRule(S,Y,X), permissionApplicable(S,Y),
-    discarded(T,X) : rebuttingRule(T,X,S,Y), superior(T,S).

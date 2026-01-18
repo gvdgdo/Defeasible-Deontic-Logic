@@ -2,25 +2,9 @@
 
 #include "language.asp".
 
-file("deontic.asp").
-version("deontic", "2026-01-13").
+file("Deontic/deontic.asp", "2026-01-13").
 
 % Deontic logic module without compensation
-
-% a literal X is permitted if it is obligatory 
-permission(X) :- obligation(X).
-% a literal X is (weakly) permitted if its opposite is not obligatory
-weekPermission(X) :- opposes(X,Y), not obligation(Y).
-% a literal X is (weakly) permitted if its negation is not obligatory
-weakPermission(X) :- negation(X,Y), not obligation(Y).
-weakPermission(X) :- negation(Y,X), not obligation(Y).
-
-% a weakly permitted literal X is permitted. 
-permission(X) :- weakPermission(X).
-
-% a deontic rule is either a prescriptive rule or a permissive rule
-deonticRule(R,X) :- prescriptiveRule(R,X).
-deonticRule(R,X) :- permissiveRule(R,X).
 
 % the obligation of a literal X holds if there is an applicable
 % prescriptive rule for X and all the attacking obligation rules 

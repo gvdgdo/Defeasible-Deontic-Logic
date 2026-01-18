@@ -1,7 +1,6 @@
 % Copyright (c) 2022-2026 Guido Governatori.
 
-file("language.asp").
-version("common language", "2026-01-09").
+file("language.asp", "common language", "2026-01-09").
 
 % atomic proposition have to be declared with "atom"
 

@@ -25,11 +25,11 @@ rebutted(R,X) :- constitutiveRule(R,X), defeated(R,X).
 rebutted(R,X) :- constitutiveRule(R,X), discarded(R,X).
 
 % a conclusion X is defeasibly refuted if the opposite X1 holds definitely
-refuted(X) :- opposes(X,X1), definite(X1).
+refuted(X) :- opposes(X,X1), fact(X1).
 
 % or if every rule for X (that is not a defeater) is either discarded 
 % or attacked by an undefeated rule
-refuted(X) :- literal(X), not definite(X),
+refuted(X) :- literal(X), not fact(X),
     mpartial(R,X) : constitutiveRule(R,X).
 
 mpartial(R,X) :- constitutiveRule(R,X), discarded(R,X) : constitutiveRule(R,X).
