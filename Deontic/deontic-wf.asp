@@ -2,8 +2,7 @@
 
 #include "language.asp".
 
-file("deontic-wf.asp").
-version("deontic well-founded", "2026-01-13").
+file("deontic-wf.asp", "deontic well-founded", "2026-01-13").
 
 % Deontic logic module without compensation
 

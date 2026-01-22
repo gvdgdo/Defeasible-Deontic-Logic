@@ -2,7 +2,7 @@
 
 #include "language.asp".
 
-file("Deontic/deontic.asp", "2026-01-13").
+file("Deontic/deontic.asp", "deontic logic", "2026-01-13").
 
 % Deontic logic module without compensation
 

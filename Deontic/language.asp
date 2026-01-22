@@ -14,12 +14,12 @@ deonticRule(R,X) :- prescriptiveRule(R,X).
 deonticRule(R,X) :- permissiveRule(R,X).
 
 % a literal is an obligation when it is of the form obl(Z) or non(obl(Z))
-isObligation(Y) :- literal(Z), Y = obl(Z).
-isObligation(Y) :- literal(Z), Y = non(obl(Z)).
+% isObligation(Y) :- literal(Z), Y = obl(Z).
+% isObligation(Y) :- literal(Z), Y = non(obl(Z)).
 
 % a literal is a permission when it is of the form per(Z) or non(per(Z))
-isPermission(Y) :- literal(Z), Y = per(Z).
-isPermission(Y) :- literal(Z), Y = non(per(Z)).
+% isPermission(Y) :- literal(Z), Y = per(Z).
+% isPermission(Y) :- literal(Z), Y = non(per(Z)).
 
 % a rule is applicable plain literals hold defeasibly, 
 % positive obligation and permission hold, and negative obligations and 
@@ -73,7 +73,7 @@ weakPermission(X) :- negation(X,Y), not obligation(Y).
 weakPermission(X) :- negation(Y,X), not obligation(Y).
 
 % a weakly permitted literal X is permitted. 
-permission(X) :- weakPermission(X).
+% permission(X) :- weakPermission(X).
 
 % a violation occurs when an obligation holds and its opposite 
 % defeasibly holds

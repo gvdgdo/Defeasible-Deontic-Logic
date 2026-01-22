@@ -1,6 +1,6 @@
 % copyright (c) 2022-2026 Guido Governatori
 
-version("Deontic defeasible ambiguity propagation", "2026-01-09").
+file("Deontic/defeasible-ab.asp", "Deontic defeasible ambiguity blocking", "2026-01-09").
 
 #include "language.asp".
 
