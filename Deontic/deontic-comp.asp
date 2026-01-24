@@ -125,9 +125,8 @@ mOpartial(R,X) :-
     obligationRule(R,X), obligationDiscarded(R,X,N).
 
 mOpartial(R,X) :- 
-    obligationRule(R,X), obligationApplicable(R,X,_),
-    obligationAttacking(S,Y,X), deonticApplicable(S,Y),
-    obligationDiscarded(T,X,N) : obligationRebutting(T,X,S,Y), superior(T,S).
+    obligationRule(R,X), obligationApplicable(R,X,_), obligationAttacking(S,Y,X),
+    obligationDiscarded(T,X,N) : obligationRebutting(T,X,S,Y), superior(T,S), deonticApplicable(S,Y).
 
 % a permission for X holds if there is a permission applicable permission 
 % rule R for X, and  all the attacking obligation rules S for Y are 
@@ -153,6 +152,6 @@ permissionRefuted(X) :- literal(X),
 
 mPpartial(R,X) :- permissionRule(R,X), permissionDiscarded(R,X).
 mPpartial(R,X) :- permissionRule(R,X), permissionApplicable(R,X),
-    obligationRule(S,Y), opposes(X,Y), obligationApplicable(S,Y,_),
-    obligationDiscarded(T,X) : obligationRule(T,X), superior(T,S);
-    permissionDiscarded(T,X) : permissionRule(T,X), superior(T,S).
+    obligationRule(S,Y), opposes(X,Y), 
+    obligationDiscarded(T,X) : obligationRule(T,X), superior(T,S),obligationApplicable(S,Y,_);
+    permissionDiscarded(T,X) : permissionRule(T,X), superior(T,S),obligationApplicable(S,Y,_).

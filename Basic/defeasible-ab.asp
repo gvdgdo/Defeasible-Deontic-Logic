@@ -35,7 +35,7 @@ refuted(X) :- opposes(X,X1), definite(X1).
 refuted(X) :- literal(X), not definite(X),
     mpartial(R,X) : rule(R,X).
 
-mpartial(R,X) :- rule(R,X), discarded(R,X) : rule(R,X), not defeater(R,X).
-mpartial(R,X) :- rule(R,X), rule(S,Y), opposes(X,Y), applicable(S,Y),
-     discarded(T,X) : rule(T,X), superior(T,S).
-     
+mpartial(R,X) :- rule(R,X), discarded(R,X), not defeater(R,X).
+mpartial(R,X) :- rule(R,X), rule(S,Y), opposes(X,Y),
+       discarded(T,X) : rule(T,X), superior(T,S), applicable(S,Y).
+

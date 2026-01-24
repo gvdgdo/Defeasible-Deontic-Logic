@@ -32,8 +32,8 @@ refuted(X) :- opposes(X,X1), fact(X1).
 refuted(X) :- literal(X), not fact(X),
     mpartial(R,X) : constitutiveRule(R,X).
 
-mpartial(R,X) :- constitutiveRule(R,X), discarded(R,X) : constitutiveRule(R,X).
+mpartial(R,X) :- constitutiveRule(R,X), discarded(R,X).
 mpartial(R,X) :- constitutiveRule(R,X),  
-    constitutiveRule(S,Y), opposes(X,Y), applicable(S,Y),
-    discarded(T,X) : constitutiveRule(T,X), superior(T,S).
+    constitutiveRule(S,Y), opposes(X,Y),
+    discarded(T,X) : constitutiveRule(T,X), superior(T,S), applicable(S,Y).
     

@@ -45,8 +45,8 @@ mOpartial(R,X) :- prescriptiveRule(R,X), discarded(R,X).
 % if S attacks R and S is applicable and not defeated by an applicable stronger 
 % rule T for X
 mOpartial(R,X) :- prescriptiveRule(R,X), applicable(R,X),
-    obligationAttacking(S,Y,X), applicable(S,Y),
-    discarded(T,X) : obligationRebutting(T,S,Y,X), superior(T,S). 
+    obligationAttacking(S,Y,X), 
+    discarded(T,X) : obligationRebutting(T,S,Y,X), superior(T,S), applicable(S,Y). 
   
 % the permission of a literal X holds if there is an applicable
 % permissive rule for X and all the attacking prescriptive rules
@@ -76,5 +76,5 @@ mPpartial(R,X) :- permissiveRule(R,X), discarded(R,X).
 % S for Y when S opposes X and S is applicable and not defeated by an applicable
 % stronger rule T for X
 mPpartial(R,X) :- permissiveRule(R,X), applicable(R,X),
-    prescriptiveRule(S,Y), opposes(X,Y), applicable(S,Y),
-    discarded(T,X) : deonticRule(T,X), superior(T,S). 
+    prescriptiveRule(S,Y), opposes(X,Y), 
+    discarded(T,X) : deonticRule(T,X), superior(T,S), applicable(S,Y). 
