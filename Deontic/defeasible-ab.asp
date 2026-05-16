@@ -1,6 +1,6 @@
 % copyright (c) 2022-2026 Guido Governatori
 
-file("Deontic/defeasible-ab.asp", "Deontic defeasible ambiguity blocking", "2026-01-09").
+file("Deontic/defeasible-ab.asp", "Deontic defeasible ambiguity blocking", "2026-05-16").
 
 #include "language.asp".
 
@@ -16,9 +16,9 @@ defeasible(X) :-
     rebutted(S,Y) : opposes(X,Y), constitutiveRule(S,Y).
 
 % a constitutiveRule R for X is defeated if it is attacked by a superior constitutiveRule 
-defeated(R,X) :- opposes(X,X2), constitutiveRule(R,X),
-    constitutiveRule(R2,X2), superior(R2,R),
-    applicable(R2,X2).
+defeated(R,X) :- opposes(X,Y), constitutiveRule(R,X),
+    constitutiveRule(S,Y), superior(S,R),
+    applicable(S,Y).
 
 % a rule R is rebutted if it is defeated or discarded
 rebutted(R,X) :- constitutiveRule(R,X), defeated(R,X).
@@ -29,11 +29,18 @@ refuted(X) :- opposes(X,X1), fact(X1).
 
 % or if every rule for X (that is not a defeater) is either discarded 
 % or attacked by an undefeated rule
-refuted(X) :- literal(X), not fact(X),
-    mpartial(R,X) : constitutiveRule(R,X).
+refuted(X) :- literal(X), not fact(X), 
+    discardedOrRebutted(R,X) : constitutiveRule(R,X).
 
-mpartial(R,X) :- constitutiveRule(R,X), discarded(R,X).
-mpartial(R,X) :- constitutiveRule(R,X),  
-    constitutiveRule(S,Y), opposes(X,Y),
-    discarded(T,X) : constitutiveRule(T,X), superior(T,S), applicable(S,Y).
-    
+discardedOrRebutted(R,X) :- constitutiveRule(R,X), discarded(R,X).
+discardedOrRebutted(R,X) :- constitutiveRule(R,X), overruled(R,X).
+
+% we use the term overruled to capture the idea that a rule R for X is attacked % by an undefeated rule S for Y, where Y opposes X, and there is no superior 
+% rule T for X that is not discarded
+overruled(R,X) :- constitutiveRule(R,X),  
+    constitutiveRule(S,Y), opposes(X,Y), applicable(S,Y),
+    discardedOrNotSuperior(T,X) : constitutiveRule(T,X).
+
+discardedOrNotSuperior(T,X) :- constitutiveRule(T,X), discarded(T,X).
+discardedOrNotSuperior(T,X) :- constitutiveRule(T,X), opposes(X,Y),
+    constitutiveRule(S,Y), applicable(S,Y), not superior(T,S).

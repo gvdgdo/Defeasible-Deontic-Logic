@@ -74,7 +74,7 @@ deonticApplicable(R,X) :- permissionApplicable(R,X).
 % a prescriptive rule discarded for X, or a constitutive rule that does not 
 % convert to obligation, or a compensatory obligation for X at index N,
 % where the compensated obligation Y at index N-1 has not been violated.
-obligationDiscarded(R,X,1) :- prescriptiveRule(R,X), discarded(R,X).
+obligationDiscarded(R,X,1) :- deonticRule(R,X), discarded(R,X).
 obligationDiscarded(R,X,1) :- constitutiveRule(R,X), not convertObligation(R,X).
 obligationDiscarded(R,X,N) :- compensate(R,Y,X,N-1), not violation(R,Y,N-1).
 
@@ -126,7 +126,7 @@ mOpartial(R,X) :-
 
 mOpartial(R,X) :- 
     obligationRule(R,X), obligationApplicable(R,X,_), obligationAttacking(S,Y,X),
-    obligationDiscarded(T,X,N) : obligationRebutting(T,X,S,Y), superior(T,S), deonticApplicable(S,Y).
+    obligationDiscarded(T,X,N) : obligationRebutting(T,X,S,Y), superior(T,S).
 
 % a permission for X holds if there is a permission applicable permission 
 % rule R for X, and  all the attacking obligation rules S for Y are 
@@ -153,5 +153,5 @@ permissionRefuted(X) :- literal(X),
 mPpartial(R,X) :- permissionRule(R,X), permissionDiscarded(R,X).
 mPpartial(R,X) :- permissionRule(R,X), permissionApplicable(R,X),
     obligationRule(S,Y), opposes(X,Y), 
-    obligationDiscarded(T,X) : obligationRule(T,X), superior(T,S),obligationApplicable(S,Y,_);
-    permissionDiscarded(T,X) : permissionRule(T,X), superior(T,S),obligationApplicable(S,Y,_).
+    obligationDiscarded(T,X,_) : obligationRule(T,X), superior(T,S);
+    permissionDiscarded(T,X) : permissionRule(T,X), superior(T,S).

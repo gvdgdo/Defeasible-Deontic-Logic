@@ -2,7 +2,7 @@
 
 #include "language.asp".
 
-file("Deontic/deontic-comp-wf.asp", "deontic logic with compensation and conversion under well-founded semantics", "2026-01-22").
+file("Deontic/deontic-comp-wf.asp", "deontic logic with compensation and conversion under well-founded semantics", "2026-05-16").
 
 obligation(X) :- obligation(R,X,N).
 
@@ -74,7 +74,7 @@ deonticApplicable(R,X) :- permissionApplicable(R,X).
 % a prescriptive rule discarded for X, or a constitutive rule that does not 
 % convert to obligation, or a compensatory obligation for X at index N,
 % where the compensated obligation Y at index N-1 has not been violated.
-obligationDiscarded(R,X,1) :- prescriptiveRule(R,X), discarded(R,X).
+obligationDiscarded(R,X,1) :- deonticRule(R,X), discarded(R,X).
 obligationDiscarded(R,X,1) :- constitutiveRule(R,X), not convertObligation(R,X).
 obligationDiscarded(R,X,N) :- compensate(R,Y,X,N-1), not violation(R,Y,N-1).
 
@@ -106,7 +106,7 @@ obligationDefeated(S,Y,X) :- obligationRebutting(T,S,Y,X),
 % a rule S for Y attacking an obligation for X is rebutted if
 % 1) S for Y is discarded, or 2) it is defeated 
 obligationRebutted(S,Y,X) :- obligationAttacking(S,Y,X),
-    obligationDiscarded(S,Y,N).
+    obligationDiscarded(S,Y,_).
 obligationRebutted(S,Y,X) :- obligationAttacking(S,Y,X),
     obligationDefeated(S,Y,X).
 
@@ -114,7 +114,7 @@ obligationRebutted(S,Y,X) :- obligationAttacking(S,Y,X),
 % rule R is an obligation rule for X, it is applicable at index N,
 % and all the rules S for Y attacking it are rebutted.
 obligation(R,X,N) :- obligationRule(R,X), obligationApplicable(R,X,N),
-    obligationRebutted(S,Y,X) : obligationAttacking(S,Y,X).
+    obligationRebutted(S,Y,X) : obligationAttacking(S,Y,X); obligationAttacking(S,Y,X).
 
 obligationRefuted(X) :- literal(X), not obligation(X).
 
