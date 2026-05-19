@@ -30,9 +30,9 @@ obligationDefeated(S,Y,X) :-
 
 % a obligation attacking rule S for Y against X is rebutted if 
 % 1) it is discarded; or 2) it is defeated.
-obligationRebutted(S,Y,X) :- obligationAttacking(S,Y,X),
+obligationRebutted(S,Y,X) :- 
     discarded(S,Y) : obligationAttacking(S,Y,X). 
-obligationRebutted(S,Y,X) :- obligationAttacking(S,Y,X),
+obligationRebutted(S,Y,X) :- 
     obligationDefeated(S,Y,X) : obligationAttacking(S,Y,X). 
 
 % an obligation X is refuted if all the prescriptive rules for X are either 

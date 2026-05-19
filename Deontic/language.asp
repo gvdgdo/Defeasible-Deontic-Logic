@@ -1,6 +1,6 @@
 % Copyright (c) 2022-2026 Guido Governatori 
 
-version("deontic language", "2026-01-09").
+file("deontic language", "defeasible deontic logic language", "2026-05-16").
 
 #include "../language.asp".
 
@@ -84,6 +84,6 @@ violation(X) :- obligation(X), opposes(Y,X), defeasible(Y).
 directViolation(X) :- obligation(X), opposes(X,Y), 
     not conflict(X,Y), defeasible(Y).
 
-% a non compliance issues occurs whan an obligation bolds
+% a non compliance issues occurs when an obligation bolds
 % and but the content of the obligation
 notComplied(X) :- obligation(X), refuted(X).

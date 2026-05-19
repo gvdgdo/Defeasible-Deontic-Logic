@@ -114,7 +114,7 @@ obligationRebutted(S,Y,X) :- obligationAttacking(S,Y,X),
 % rule R is an obligation rule for X, it is applicable at index N,
 % and all the rules S for Y attacking it are rebutted.
 obligation(R,X,N) :- obligationRule(R,X), obligationApplicable(R,X,N),
-    obligationRebutted(S,Y,X) : obligationAttacking(S,Y,X); obligationAttacking(S,Y,X).
+    obligationRebutted(S,Y,X) : obligationAttacking(S,Y,X).
 
 obligationRefuted(X) :- literal(X), not obligation(X).
 

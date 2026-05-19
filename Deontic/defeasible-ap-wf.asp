@@ -3,7 +3,7 @@
 #include "definite.asp".
 
 % identifier
-version("Deontic ambiguity propagation well-founded", "2026-01-09").
+file("Deontic/defeasible-ap-wf.asp", "Deontic ambiguity propagation well-founded", "2026-05-16").
 
 % if a conclusion X holds definitely, it is also supported
 supported(X) :- definite(X).
