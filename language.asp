@@ -10,6 +10,9 @@ negation(non(X),X) :- atom(X).
 %the negation of X is non(X), provided X is an atom.
 negation(X,non(X)) :- atom(X).
 
+% negation is symmetric, if X is the negation of Y, then Y is the negation of X.
+negation(X,Y) :- negation(Y,X).
+
 %% a literal is an atom or its negation
 isNegation(X) :- atom(Y), negation(X,Y).
 literal(X) :- isNegation(X).

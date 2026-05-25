@@ -28,8 +28,10 @@ applicable(R,X) :- rule(R,X),
     defeasible(Y) : body(R,Y), literal(Y);
     obligation(Y) : body(R,X), X = obl(Y);
     obligationRefuted(Y) : body(R,X), X = non(obl(Y));
-    permission(Y) : body(R,X), X = per(Y);
-    permissionRefuted(Y) : body(R,X), X = non(per(Y)).
+    permissionOrWeakPermission(Y) : body(R,X), X = per(Y);
+    permissionOrWeakPermissionRefuted(Y) : body(R,X), X = non(per(Y)).
+    % permission(Y) : body(R,X), X = per(Y);
+    % permissionRefuted(Y) : body(R,X), X = non(per(Y)).
 
 % a rule is discarded if at least one of its body plain literals 
 % is refuted; or a positive obligation or permission in the body 
@@ -43,8 +45,12 @@ discarded(R,X) :- rule(R,X),
     body(R,non(obl(Y))), obligation(Y).
 discarded(R,X) :- rule(R,X),
     body(R,per(Y)), permissionRefuted(Y).
+%new
 discarded(R,X) :- rule(R,X),
-    body(R,non(per(Y))), permission(Y).
+    body(R,per(Y)), opposes(X,Y), obligation(Y).
+% new, it was permission(Y)
+discarded(R,X) :- rule(R,X),
+    body(R,non(per(Y))), permissionOrWeakPermission(Y).
 
 % a constitutive rule can be converted into a prescriptive  rule if
 % its body does not contain deontic literals; and all the literals in 
@@ -71,6 +77,13 @@ weekPermission(X) :- opposes(X,Y), not obligation(Y).
 % a literal X is (weakly) permitted if its negation is not obligatory
 weakPermission(X) :- negation(X,Y), not obligation(Y).
 weakPermission(X) :- negation(Y,X), not obligation(Y).
+
+% 
+permissionOrWeakPermission(X) :- permission(X).
+permissionOrWeakPermission(X) :- weakPermission(X).
+
+permissionOrWeakPermissionRefuted(X) :- permissionRefuted(X).
+permissionOrWeakPermissionRefuted(X) :- opposes(X,Y), obligation(Y).
 
 % a weakly permitted literal X is permitted. 
 % permission(X) :- weakPermission(X).
