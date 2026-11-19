@@ -26,10 +26,10 @@ deonticRule(R,X) :- permissiveRule(R,X).
 % permissions have been refuted
 applicable(R,X) :- rule(R,X),
     defeasible(Y) : body(R,Y), literal(Y);
-    obligation(Y) : body(R,X), X = obl(Y);
-    obligationRefuted(Y) : body(R,X), X = non(obl(Y));
-    permissionOrWeakPermission(Y) : body(R,X), X = per(Y);
-    permissionOrWeakPermissionRefuted(Y) : body(R,X), X = non(per(Y)).
+    obligation(Y) : body(R,Z), Z = obl(Y);
+    obligationRefuted(Y) : body(R,Z), Z = non(obl(Y));
+    permissionOrWeakPermission(Y) : body(R,Z), Z = per(Y);
+    permissionOrWeakPermissionRefuted(Y) : body(R,Z), Z = non(per(Y)).
     % permission(Y) : body(R,X), X = per(Y);
     % permissionRefuted(Y) : body(R,X), X = non(per(Y)).
 
